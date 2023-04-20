@@ -27,7 +27,7 @@ function App() {
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    getMovies();
+    getMovies({ search });
   };
 
   return (
