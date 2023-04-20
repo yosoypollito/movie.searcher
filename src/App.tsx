@@ -1,13 +1,10 @@
-import type * as Types from "./types";
-
 import Button from "@/components/Button";
 import Movies from "@/components/Movies";
-import useSearch from "./hooks/useSearch";
+import useMovies from "@/hooks/useMovies";
+import useSearch from "@/hooks/useSearch";
 
 function App() {
-  const movies: Types.Movies = [];
-
-  const mappedMovies = movies.map((movie: Types.Movie) => movie);
+  const { movies } = useMovies();
 
   const { search, updateSearch, error } = useSearch();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
