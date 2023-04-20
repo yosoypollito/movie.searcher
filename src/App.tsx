@@ -4,9 +4,9 @@ import useMovies from "@/hooks/useMovies";
 import useSearch from "@/hooks/useSearch";
 
 function App() {
-  const { movies } = useMovies();
-
   const { search, updateSearch, error } = useSearch();
+  const { movies, getMovies } = useMovies({ search });
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newSearch = event.target.value;
     updateSearch(newSearch);
@@ -14,10 +14,11 @@ function App() {
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
+    getMovies();
   };
 
   return (
-    <div className="flex flex-col justify-center gap-4 items-center h-screen w-full">
+    <div className="flex flex-col justify-center gap-4 items-center min-h-screen w-full">
       <header className="flex flex-col justify-center gap-4 items-center">
         <h1 className="text-white text-3xl font-semibold">Movie Searcher</h1>
 
@@ -42,8 +43,8 @@ function App() {
         </form>
       </header>
 
-      <main>
-        <Movies movies={mappedMovies} />
+      <main className="w-full">
+        <Movies movies={movies} />
       </main>
     </div>
   );
