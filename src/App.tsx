@@ -36,24 +36,29 @@ function App() {
         <h1 className="text-white text-3xl font-semibold">Movie Searcher</h1>
 
         <form
-          className="flex w-96 flex-row gap-1 justify-center"
+          className="flex w-96 flex-col gap-5 justify-center"
           onSubmit={handleSubmit}
         >
-          <div className="flex flex-col w-full relative">
-            <input
-              className="rounded-xl px-2 py-0.5 w-full border-2 border-zinc-400 bg-transparent text-zinc-100 outline-none"
-              placeholder="Avengers, Horror, Saw ..."
-              onChange={handleChange}
-              value={search}
-            />
-            <input type="checkbox" onChange={toggleSort} checked={sort} />
-            {error && (
-              <p className="absolute top-full left-2 text-xs text-red-500 font-semibold">
-                {error}
-              </p>
-            )}
+          <div className="flex flex-row w-full gap-2">
+            <div className="flex flex-col w-full relative">
+              <input
+                className="rounded-xl px-2 py-0.5 w-full border-2 border-zinc-400 bg-transparent text-zinc-100 outline-none"
+                placeholder="Avengers, Horror, Saw ..."
+                onChange={handleChange}
+                value={search}
+              />
+              {error && (
+                <p className="absolute top-full left-2 text-xs text-red-500 font-semibold">
+                  {error}
+                </p>
+              )}
+            </div>
+            <Button type="submit">Buscar</Button>
           </div>
-          <Button type="submit">Buscar</Button>
+          <label className="flex flex-row gap-1 text-xs w-fit">
+            <input type="checkbox" onChange={toggleSort} checked={sort} />
+            Sort by title
+          </label>
         </form>
       </header>
 
