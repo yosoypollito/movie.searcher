@@ -3,7 +3,8 @@ import Movies from "@/components/Movies";
 import useMovies from "@/hooks/useMovies";
 import useSearch from "@/hooks/useSearch";
 import Loading from "@/components/Loading";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import debounce from "just-debounce-it";
 
 function App() {
   const [sort, setSort] = useState(false);
@@ -16,10 +17,17 @@ function App() {
     error: MoviesError,
   } = useMovies({ search, sort });
 
+  const debouncedGetMovies = useCallback(
+    debounce((search: string) => {
+      getMovies({ search });
+    }, 500),
+    []
+  );
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newSearch = event.target.value;
     updateSearch(newSearch);
-    getMovies({ search: newSearch });
+    debouncedGetMovies(newSearch);
   };
 
   const toggleSort = () => {
