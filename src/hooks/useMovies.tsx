@@ -1,8 +1,15 @@
+import type { Movies } from "../types";
 import { useRef, useState } from "react";
 import { searchMovies } from "../services/movies";
 
-export default function useMovies({ search }: { search: string }) {
-  const [movies, setMovies] = useState([]);
+export default function useMovies({
+  search,
+  sort,
+}: {
+  search: string;
+  sort: boolean;
+}) {
+  const [movies, setMovies] = useState<Movies>([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const prevSearch = useRef("");
@@ -23,5 +30,9 @@ export default function useMovies({ search }: { search: string }) {
     }
   };
 
-  return { movies, getMovies, error, loading };
+  const sortedMovies = sort
+    ? [...movies].sort((a, b) => a.title.localeCompare(b.title))
+    : movies;
+
+  return { movies: sortedMovies, getMovies, error, loading };
 }

@@ -3,19 +3,26 @@ import Movies from "@/components/Movies";
 import useMovies from "@/hooks/useMovies";
 import useSearch from "@/hooks/useSearch";
 import Loading from "@/components/Loading";
+import { useState } from "react";
 
 function App() {
+  const [sort, setSort] = useState(false);
+
   const { search, updateSearch, error } = useSearch();
   const {
     movies,
     getMovies,
     loading,
     error: MoviesError,
-  } = useMovies({ search });
+  } = useMovies({ search, sort });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newSearch = event.target.value;
     updateSearch(newSearch);
+  };
+
+  const toggleSort = () => {
+    setSort(!sort);
   };
 
   const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -39,6 +46,7 @@ function App() {
               onChange={handleChange}
               value={search}
             />
+            <input type="checkbox" onChange={toggleSort} checked={sort} />
             {error && (
               <p className="absolute top-full left-2 text-xs text-red-500 font-semibold">
                 {error}
