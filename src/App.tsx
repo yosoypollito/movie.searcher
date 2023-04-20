@@ -19,6 +19,7 @@ function App() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newSearch = event.target.value;
     updateSearch(newSearch);
+    getMovies({ search });
   };
 
   const toggleSort = () => {
