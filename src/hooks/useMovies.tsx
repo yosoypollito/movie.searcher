@@ -1,39 +1,13 @@
-import type { Movies, Movie } from "@/src/types";
 import { useState } from "react";
+import { searchMovies } from "../services/movies";
 
 export default function useMovies({ search }: { search: string }) {
-  const [responseMovies, setResponseMovies] = useState([]);
-
-  const movies = responseMovies;
-
-  const mappedMovies = movies.map((movie: Movie) => ({
-    id: movie.imdbID,
-    title: movie.Title,
-    year: movie.Year,
-    poster: movie.Poster,
-    type: movie.Type,
-  }));
+  const [movies, setMovies] = useState([]);
 
   const getMovies = async () => {
-    if (!search) {
-      setResponseMovies([]);
-      return;
-    }
-
-    const { VITE_OMD_API_URL, VITE_OMD_API_KEY } = import.meta.env;
-
-    const { Search } = await fetch(
-      `${VITE_OMD_API_URL}/?apikey=${VITE_OMD_API_KEY}&s=${search}`
-    ).then((r) => r.json());
-
-    if (!Search) {
-      setResponseMovies([]);
-    }
-
-    setResponseMovies(Search);
-
-    //TODO get movies
+    const searchedMovies = await searchMovies({ search });
+    setMovies(searchedMovies);
   };
 
-  return { movies: mappedMovies, getMovies };
+  return { movies, getMovies };
 }
