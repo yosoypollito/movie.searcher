@@ -2,10 +2,16 @@ import Button from "@/components/Button";
 import Movies from "@/components/Movies";
 import useMovies from "@/hooks/useMovies";
 import useSearch from "@/hooks/useSearch";
+import Loading from "@/components/Loading";
 
 function App() {
   const { search, updateSearch, error } = useSearch();
-  const { movies, getMovies } = useMovies({ search });
+  const {
+    movies,
+    getMovies,
+    loading,
+    error: MoviesError,
+  } = useMovies({ search });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newSearch = event.target.value;
@@ -18,12 +24,12 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col justify-center gap-4 items-center min-h-screen w-full">
+    <div className="grid justify-center items-center min-h-screen w-full grid-cols-1 grid-rows-[min-content_1fr] gap-8 py-4">
       <header className="flex flex-col justify-center gap-4 items-center">
         <h1 className="text-white text-3xl font-semibold">Movie Searcher</h1>
 
         <form
-          className="flex w-96 flex-row gap-1 items-center justify-center"
+          className="flex w-96 flex-row gap-1 justify-center"
           onSubmit={handleSubmit}
         >
           <div className="flex flex-col w-full relative">
@@ -43,8 +49,8 @@ function App() {
         </form>
       </header>
 
-      <main className="w-full">
-        <Movies movies={movies} />
+      <main className="flex w-full justify-center self-start">
+        {loading ? <Loading /> : <Movies movies={movies} />}
       </main>
     </div>
   );

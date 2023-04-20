@@ -10,7 +10,7 @@ export default function Movies({ movies }: { movies: Movies }) {
       ) : (
         <div className="grid grid-cols-[repeat(auto-fill,_minmax(200px,1fr))] w-full gap-4 justify-items-center p-2">
           {movies.map((movie) => {
-            return <Movie {...movie} />;
+            return <Movie key={movie.id} {...movie} />;
           })}
         </div>
       )}
