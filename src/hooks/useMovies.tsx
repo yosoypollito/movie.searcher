@@ -15,6 +15,8 @@ export default function useMovies({
   const prevSearch = useRef("");
 
   const getMovies = useCallback(async ({ search }: { search: string }) => {
+    if (search === "") return;
+
     if (prevSearch.current === search) return;
     try {
       setLoading(true);
